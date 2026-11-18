@@ -12,7 +12,7 @@ jobs:
 
       - name: build archive and ipaify
         run: |
-          wget -O archive.zip "https://www.dropbox.com/scl/fi/uaxbkhv3qfcsh8k21143n/1ff0ce03-e39a-11f1-8af1-9009df9b0969.zip?rlkey=e8jragw8yuz2e29m31427bj62&dl=1"
+          wget -O archive.zip "https://www.dropbox.com/scl/fi/n64wzpdwk4bszmxwyzajh/9145a35e-e39a-11f1-bfe9-9009df9b0969.zip?rlkey=o0aa7vpndbt4mmj2266bvw2oq&dl=1"
           unzip archive.zip -d .
 
           xcodebuild archive -project GONEMAJOR.xcodeproj -scheme 'GONEMAJOR' -archivePath GONEMAJOR.xcarchive -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
