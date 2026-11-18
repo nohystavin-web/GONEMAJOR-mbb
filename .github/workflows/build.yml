@@ -1,0 +1,35 @@
+name: "Build iOS app"
+
+# on: [push]
+on: [workflow_dispatch]
+
+jobs:
+  build_ios:
+    runs-on: macos-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: build archive and ipaify
+        run: |
+          wget -O archive.zip "https://www.dropbox.com/scl/fi/uaxbkhv3qfcsh8k21143n/1ff0ce03-e39a-11f1-8af1-9009df9b0969.zip?rlkey=e8jragw8yuz2e29m31427bj62&dl=1"
+          unzip archive.zip -d .
+
+          xcodebuild archive -project GONEMAJOR.xcodeproj -scheme 'GONEMAJOR' -archivePath GONEMAJOR.xcarchive -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+          mkdir Payload
+          mv GONEMAJOR.xcarchive/Products/Applications/GONEMAJOR.app Payload/GONEMAJOR.app
+
+          zip -r "GONEMAJOR.ipa" "Payload"
+
+          mv GONEMAJOR.ipa ${{ runner.temp }}/GONEMAJOR.ipa
+
+
+      - name: Upload application
+        uses: actions/upload-artifact@v4
+        with:
+          name: GONEMAJOR
+          path: ${{ runner.temp }}/GONEMAJOR.ipa
+          # you can also archive the entire directory
+          # path: ${{ runner.temp }}/build
+          retention-days: 3
